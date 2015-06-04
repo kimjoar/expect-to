@@ -25,9 +25,16 @@ function equal(expected) {
         return assert(expected === actual, {
             expected: expected,
             actual: actual,
-            msg: `Expected '${actual}' to equal '${expected}'`
+            msg: `Expected ${output(actual)} to equal ${output(expected)}`
         });
     }
+}
+
+function output(obj) {
+    if (typeof obj === "string") {
+        return `'${obj}'`;
+    }
+    return obj;
 }
 
 module.exports = { expect, equal };
