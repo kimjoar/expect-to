@@ -1,22 +1,31 @@
+let curry = require('lodash.curry');
 let isPromise = require('is-promise');
 
 function expect(actual) {
     return {
-        to: function(test) {
+        to: test => {
             let res = test(actual);
 
             if (isPromise(res)) {
-                return res.then(throwIfError);
+                return res.then(throwIfError, handleRejectedPromise);
             } else {
-                return throwIfError(res);
+                throwIfError(res);
             }
         }
     }
 }
 
-function throwIfError(res) {
-    if (res === undefined) return;
+function handleRejectedPromise(val) {
+    throwError({
+        msg: `Expected promise to resolve, but was rejected with ${output(val)}`
+    });
+}
 
+function throwIfError(res) {
+    if (res !== undefined) throwError(res);
+}
+
+function throwError(res) {
     let err = new Error(res.msg);
     err.expected = res.expected;
     err.actual = res.actual;
@@ -24,22 +33,14 @@ function throwIfError(res) {
     throw err;
 }
 
+function eventually(test) {
+    return promise => promise.then(test);
+}
+
 function assert(passed, opts = {}) {
     if (passed !== true) {
         return opts;
     }
-}
-
-function equal(expected) {
-    return actual => assert(expected === actual, {
-        expected: expected,
-        actual: actual,
-        msg: `Expected ${output(actual)} to equal ${output(expected)}`
-    });
-}
-
-function eventually(test) {
-    return promise => promise.then(test);
 }
 
 function output(obj) {
@@ -49,5 +50,42 @@ function output(obj) {
     return obj;
 }
 
-module.exports = { expect, equal, eventually };
+function assertion(fn) {
+    return curry(fn, 2);
+}
+
+/*** ASSERTIONS ***/
+
+const equal = assertion((expected, actual) => {
+    return assert(expected === actual, {
+        expected: expected,
+        actual: actual,
+        msg: `Expected ${output(actual)} to equal ${output(expected)}`
+    });
+});
+
+/*** PROMISE ASSERTIONS ***/
+
+function beFulfilled() {
+    return actual => actual.then(
+        () => undefined,
+        () => {
+            throwError({
+                msg: 'Expected promise to be fulfilled'
+            });
+        }
+    );
+}
+
+function beRejected() {
+}
+
+function beRejectedWith(test) {
+}
+
+module.exports = {
+    expect, assert, assertion,
+    equal,
+    eventually, beFulfilled
+};
 
