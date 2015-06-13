@@ -1,5 +1,5 @@
 let Promise = require('bluebird');
-let { expect, equal, eventually, assert, beFulfilled, assertion } = require('./');
+let { expect, equal, eventually, beFulfilled, assertion } = require('./');
 
 describe("expected", function() {
 
@@ -60,12 +60,14 @@ describe("expected", function() {
     it("handles own assertion", function() {
         let contain = function(item) {
             return function(arr) {
-                return assert(arr.indexOf(item) >= 0, {
-                    expected: item,
-                    actual: arr,
-                    msg: `Expected ${arr} to contain ${item}`
-                });
-            }
+                if (arr.indexOf(item) < 0) {
+                    return {
+                        expected: item,
+                        actual: arr,
+                        msg: `Expected ${arr} to contain ${item}`
+                    };
+                }
+            };
         }
 
         expect([1,2,3]).to(contain(2));
@@ -74,11 +76,13 @@ describe("expected", function() {
 
     it("creates own assertion with helper", function() {
         let contain = assertion((item, arr) => {
-            return assert(arr.indexOf(item) >= 0, {
-                expected: item,
-                actual: arr,
-                msg: `Expected ${arr} to contain ${item}`
-            });
+            if (arr.indexOf(item) < 0) {
+                return {
+                    expected: item,
+                    actual: arr,
+                    msg: `Expected ${arr} to contain ${item}`
+                };
+            }
         });
 
         expect([5,6,7]).to(contain(5));

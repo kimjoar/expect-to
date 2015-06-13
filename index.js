@@ -37,12 +37,6 @@ function eventually(test) {
     return promise => promise.then(test);
 }
 
-function assert(passed, opts = {}) {
-    if (passed !== true) {
-        return opts;
-    }
-}
-
 function output(obj) {
     if (typeof obj === "string") {
         return `'${obj}'`;
@@ -57,11 +51,13 @@ function assertion(fn) {
 /*** ASSERTIONS ***/
 
 const equal = assertion((expected, actual) => {
-    return assert(expected === actual, {
-        expected: expected,
-        actual: actual,
-        msg: `Expected ${output(actual)} to equal ${output(expected)}`
-    });
+    if (expected !== actual) {
+        return {
+            expected: expected,
+            actual: actual,
+            msg: `Expected ${output(actual)} to equal ${output(expected)}`
+        };
+    }
 });
 
 /*** PROMISE ASSERTIONS ***/
@@ -84,7 +80,7 @@ function beRejectedWith(test) {
 }
 
 module.exports = {
-    expect, assert, assertion,
+    expect, assertion,
     equal,
     eventually, beFulfilled
 };
