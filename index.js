@@ -7,7 +7,10 @@ function expect(actual) {
             let res = test(actual);
 
             if (isPromise(res)) {
-                return res.then(throwIfError, handleRejectedPromise);
+                return res.then(
+                    throwIfError,
+                    throwIfError
+                );
             } else {
                 throwIfError(res);
             }
@@ -15,27 +18,17 @@ function expect(actual) {
     }
 }
 
-function handleRejectedPromise(val) {
-    throwError({
-        msg: `Expected promise to resolve, but was rejected with ${output(val)}`
-    });
-}
-
 function throwIfError(res) {
-    if (res !== undefined) throwError(res);
+    if (res !== undefined) {
+        let err = new Error(res.msg);
+        err.expected = res.expected;
+        err.actual = res.actual;
+        err.showDiff = true;
+        throw err;
+    }
 }
 
-function throwError(res) {
-    let err = new Error(res.msg);
-    err.expected = res.expected;
-    err.actual = res.actual;
-    err.showDiff = true;
-    throw err;
-}
-
-function eventually(test) {
-    return promise => promise.then(test);
-}
+/*** HELPERS ***/
 
 function output(obj) {
     if (typeof obj === "string") {
@@ -62,18 +55,35 @@ const equal = assertion((expected, actual) => {
 
 /*** PROMISE ASSERTIONS ***/
 
+function eventually(test) {
+    return promise => promise.then(test,
+        () => {
+            return {
+                msg: 'Expected to eventually resolve, but was rejected'
+            };
+        });
+}
+
 function beFulfilled() {
     return actual => actual.then(
         () => undefined,
         () => {
-            throwError({
+            return {
                 msg: 'Expected promise to be fulfilled'
-            });
+            };
         }
     );
 }
 
 function beRejected() {
+    return actual => actual.then(
+        () => {
+            return {
+                msg: 'Expected promise to be rejected'
+            };
+        },
+        () => undefined
+    );
 }
 
 function beRejectedWith(test) {
@@ -82,6 +92,6 @@ function beRejectedWith(test) {
 module.exports = {
     expect, assertion,
     equal,
-    eventually, beFulfilled
+    eventually, beFulfilled, beRejected
 };
 
