@@ -8,6 +8,7 @@
     "lodash.curry": "^3.0.1"
   },
   "devDependencies": {
+    "babel": "^5.6.14",
     "babel-core": "^5.4.7",
     "babel-loader": "^5.1.3",
     "bluebird": "^2.9.27",
@@ -24,7 +25,9 @@
     "webpack": "^1.9.10"
   },
   "scripts": {
-    "test": "karma start karma.conf.js"
+    "test": "mocha --compilers js:babel/register",
+    "test-web": "karma start karma.conf.js",
+    "test-web-watch": "karma start karma.conf.js --no-single-run"
   },
   "author": "Kim Joar Bekkelund <kjbekkelund@gmail.com>",
   "license": "MIT"
