@@ -1,6 +1,8 @@
+'use strict';
+
 let assert = require('assert');
 let Promise = require('bluebird');
-let { expect, equal, eventually, beFulfilled, beRejected, assertion } = require('./');
+let { expect, equal, eventually, beFulfilled, beRejected } = require('./');
 
 const assertSuccess = res => {
     assert(res === undefined);
@@ -22,13 +24,13 @@ describe("expected", function() {
 
     describe("equal", function() {
         it("succeeds when strings are equal", function() {
-            let res = equal("test", "test");
+            let res = equal("test")("test");
 
             assertSuccess(res);
         });
 
         it("fails when strings are not equal", function() {
-            let res = equal("test", "testing");
+            let res = equal("test")("testing");
 
             assertError(res, {
                 expected: "test",
@@ -37,7 +39,7 @@ describe("expected", function() {
         });
 
         it("fails when booleans are not equal", function() {
-            let res = equal(false, true);
+            let res = equal(false)(true);
 
             assertError(res, {
                 expected: false,
@@ -47,7 +49,7 @@ describe("expected", function() {
 
         it("succeeds when same reference", function() {
             let test = { name: "kim" };
-            let res = equal(test, test);
+            let res = equal(test)(test);
 
             assertSuccess(res);
         });
@@ -55,7 +57,7 @@ describe("expected", function() {
         it("fails when different references", function() {
             let ref1 = { name: "kim" };
             let ref2 = { name: "kim" };
-            let res = equal(ref1, ref2);
+            let res = equal(ref1)(ref2);
 
             assertError(res, {
                 expected: ref1,
@@ -138,21 +140,6 @@ describe("expected", function() {
 
         expect([1,2,3]).to(contain(2));
         expect([1,2,3]).to(contain(4));
-    });
-
-    it("creates own assertion with helper", function() {
-        let contain = assertion((item, arr) => {
-            if (arr.indexOf(item) < 0) {
-                return {
-                    expected: item,
-                    actual: arr,
-                    msg: `Expected ${arr} to contain ${item}`
-                };
-            }
-        });
-
-        expect([5,6,7]).to(contain(5));
-        expect([5,6,7]).to(contain(9));
     });
 
 });

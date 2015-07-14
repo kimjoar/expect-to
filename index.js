@@ -1,3 +1,5 @@
+'use strict';
+
 let curry = require('lodash.curry');
 let isPromise = require('is-promise');
 
@@ -37,21 +39,19 @@ function output(obj) {
     return obj;
 }
 
-function assertion(fn) {
-    return curry(fn, 2);
-}
-
 /*** ASSERTIONS ***/
 
-const equal = assertion((expected, actual) => {
-    if (expected !== actual) {
-        return {
-            expected: expected,
-            actual: actual,
-            msg: `Expected ${output(actual)} to equal ${output(expected)}`
-        };
+const equal = expected => {
+    return actual => {
+        if (expected !== actual) {
+            return {
+                expected: expected,
+                actual: actual,
+                msg: `Expected ${output(actual)} to equal ${output(expected)}`
+            };
+        }
     }
-});
+}
 
 /*** PROMISE ASSERTIONS ***/
 
@@ -90,8 +90,7 @@ function beRejectedWith(test) {
 }
 
 module.exports = {
-    expect, assertion,
-    equal,
+    expect, equal,
     eventually, beFulfilled, beRejected
 };
 
