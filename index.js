@@ -1,4 +1,3 @@
-const curry = require('lodash.curry');
 const isPromise = require('is-promise');
 const stringify = require('./stringify');
 
