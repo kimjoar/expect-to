@@ -1,7 +1,6 @@
-'use strict';
-
-let curry = require('lodash.curry');
-let isPromise = require('is-promise');
+const curry = require('lodash.curry');
+const isPromise = require('is-promise');
+const stringify = require('./stringify');
 
 function expect(actual) {
     return {
@@ -30,38 +29,60 @@ function throwIfError(res) {
     }
 }
 
-/*** HELPERS ***/
-
-function output(obj) {
-    if (typeof obj === "string") {
-        return `'${obj}'`;
-    }
-    return obj;
-}
-
 /*** ASSERTIONS ***/
 
-const equal = expected => {
-    return actual => {
-        if (expected !== actual) {
-            return {
-                expected: expected,
-                actual: actual,
-                msg: `Expected ${output(actual)} to equal ${output(expected)}`
-            };
-        }
+const defaultOpts = { not: false };
+
+const assertion = cb => (expected, opts = defaultOpts) => actual => {
+    var res = cb({
+        actual,
+        expected,
+        stringify,
+        ...opts
+    });
+
+    if (res === false || res == null) return;
+
+    return {
+        expected: expected,
+        actual: actual,
+        msg: res
     }
 }
+
+const equal = assertion(({ actual, expected, not, stringify }) => {
+    if (not && expected === actual) {
+        return `Expected ${stringify(actual)} not to equal ${stringify(expected)}`
+    }
+    if (expected !== actual) {
+        return `Expected ${stringify(actual)} to equal ${stringify(expected)}`
+    }
+});
+
+const not = actual => cb => {
+    return cb(actual, { not: true });
+}
+
+const beTrue = assertion(({ actual, not, stringify }) => {
+    if (not && actual === true) {
+        return `Expected ${stringify(actual)} not to be true`
+    }
+    if (actual !== true) {
+        return `Expected ${stringify(actual)} to be true`
+    }
+});
+
+assertion.stringify = stringify;
+assertion.not = not => not ? "not " : "";
 
 /*** PROMISE ASSERTIONS ***/
 
 function eventually(test) {
     return promise => promise.then(test,
-        () => {
-            return {
-                msg: 'Expected to eventually resolve, but was rejected'
-            };
-        });
+        () => ({
+            msg: 'Expected to eventually resolve, but was rejected'
+        })
+    );
 }
 
 function beFulfilled() {

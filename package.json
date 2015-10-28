@@ -25,7 +25,8 @@
     "webpack": "^1.9.10"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel/register",
+    "test": "npm run test-node && npm run test-web",
+    "test-node": "mocha --compilers js:babel/register",
     "test-web": "karma start karma.conf.js",
     "test-web-watch": "karma start karma.conf.js --no-single-run"
   },
