@@ -1,9 +1,10 @@
 {
-  "name": "expected",
-  "version": "1.0.0",
+  "name": "expect-to",
+  "version": "0.1.0",
   "description": "Assertion lib using pure functions",
   "main": "index.js",
   "dependencies": {
+    "deep-equal": "^1.0.1",
     "is-promise": "^2.0.0"
   },
   "devDependencies": {
@@ -25,7 +26,7 @@
   },
   "scripts": {
     "test": "npm run test-node && npm run test-web",
-    "test-node": "mocha --compilers js:babel/register",
+    "test-node": "mocha --compilers js:babel/register; exit 0",
     "test-web": "karma start karma.conf.js",
     "test-web-watch": "karma start karma.conf.js --no-single-run"
   },

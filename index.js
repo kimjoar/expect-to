@@ -1,18 +1,20 @@
 const isPromise = require('is-promise');
+const assertion = require('./assertion');
 const assertions = require('./assertions');
 const promises = require('./promises');
 
 function expect(actual) {
     return {
         to: test => {
-            let res = test(actual);
+            const res = test(actual);
 
             if (isPromise(res)) {
                 return res.then(
                     throwIfError,
                     throwIfError
                 );
-            } else {
+            }
+            else {
                 throwIfError(res);
             }
         }
@@ -21,7 +23,7 @@ function expect(actual) {
 
 function throwIfError(res) {
     if (res !== undefined) {
-        let err = new Error(res.msg);
+        const err = new Error(res.msg);
         err.expected = res.expected;
         err.actual = res.actual;
         err.showDiff = true;
@@ -30,6 +32,5 @@ function throwIfError(res) {
 }
 
 module.exports = {
-    expect, ...assertions, ...promises
+    expect, assertion, ...assertions, ...promises
 };
-
