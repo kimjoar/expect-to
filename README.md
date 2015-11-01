@@ -50,8 +50,8 @@ describe('my test', function() {
 Assertions available
 --------------------
 
-- [`expect-to-core`](https://github.com/kjbekkelund/expect-to-core) contains core assertions, such as `equal`, `beTrue`, `beEmpty` and `contains`.
-- FIX: [`expect-to-promises`]() contains handling of promises, such as `beFulfilled` and `beRejected`.
+- [`expect-to-core`](https://github.com/kjbekkelund/expect-to-core) contains core assertions, such as `equal`, `deepEqual`, `beTrue`, `beEmpty` and `match`.
+- FIX: [`expect-to-promises`]() contains handling of promises, such as `eventually`, `beResolved` and `beRejected`.
 
 Creating your own assertions
 ----------------------------
@@ -92,12 +92,10 @@ There are [many](http://chaijs.com/)
 [libraries](https://github.com/Automattic/expect.js)
 [out](https://github.com/power-assert-js/power-assert)
 [there](https://github.com/moll/js-must), but I haven't found one that matches
-what I want in an assertion library. These are _not_ complaints of the
-existing libraries, they are different philosophies. What works for me is not
-necessarily the right choice for you.
+what I want in an assertion library. This is what I look for:
 
-First, I want my assertions to feel like JavaScript and I therefore don't want
-this style of chaining assertions:
+First, I want my assertions to feel like JavaScript, so I've never been a huge
+fan of this style of chaining assertions:
 
 ```javascript
 someVar.should.be.a('string');
@@ -113,8 +111,8 @@ An assertion library must also have great error messages, which excludes basic
 asserts:
 
 ```javascript
-assert('kim' == user.name);
-assert('number' == typeof user.age);
+assert(user.name == 'kim');
+assert(typeof user.age == 'number');
 ```
 
 (Yep, I know [Power Assert](https://github.com/power-assert-js/power-assert)
@@ -122,9 +120,9 @@ solves that problem.)
 
 It must also be extremely simple to extend. I want assertions for React,
 Sinon.js and others, but they shouldn't be built into the core itself — the
-core should be framework agnostic. To me it's important that extensions
-are first class members, not something that is tacked onto some prototype or
-added to an instance. This exludes things like:
+core should be framework agnostic. To me it's important that extensions are
+first class members, not something that is tacked onto a prototype or added to
+an instance. This exludes things like:
 
 ```javascript
 beforeEach(function () {
@@ -152,7 +150,8 @@ test('equal test', function (t) {
 });
 ```
 
-It _must_ also end up calling a function, not assert on property access. What happens here?
+It _must_ also end up calling a function, not assert on property access. What
+happens here?
 
 ```javascript
 myVar.should.be.false;
@@ -170,5 +169,7 @@ undefined.should.not.be.ok;
 ```
 
 This doesn't work as you cannot add properties to `undefined` and `null`.
+
+And on that example, I never remember what `ok` actually means without checking the docs.
 
 `expect-to` is my attempt at building an assertion library that solves all of these problems.
