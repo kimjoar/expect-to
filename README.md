@@ -50,7 +50,7 @@ describe('my test', function() {
 Assertions available
 --------------------
 
-- FIX: [`expect-to-core`]() contains core assertions, such as `equal`, `beTrue`, `beEmpty` and `contains`.
+- [`expect-to-core`](https://github.com/kjbekkelund/expect-to-core) contains core assertions, such as `equal`, `beTrue`, `beEmpty` and `contains`.
 - FIX: [`expect-to-promises`]() contains handling of promises, such as `beFulfilled` and `beRejected`.
 
 Creating your own assertions
