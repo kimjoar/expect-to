@@ -88,10 +88,12 @@ Why a new assertion library?
 
 There are [many](http://chaijs.com/)
 [assertion](https://github.com/shouldjs/should.js)
-[libraries](https://github.com/Automattic/expect.js) out there, but I haven't
-found one that matches what I want in an assertion library. These are _not_
-complaints but the existing libraries, they are different philosophies. What
-works for me is not necessarily the right choice for you.
+[libraries](https://github.com/Automattic/expect.js)
+[out](https://github.com/power-assert-js/power-assert)
+[there](https://github.com/moll/js-must), but I haven't found one that matches
+what I want in an assertion library. These are _not_ complaints but the
+existing libraries, they are different philosophies. What works for me is not
+necessarily the right choice for you.
 
 First of, I want them to feel like JavaScript, e.g. no chaining of assertions:
 
@@ -145,7 +147,7 @@ test('equal test', function (t) {
 });
 ```
 
-It _must_ also end up calling a function. What happens here?
+It _must_ also end up calling a function, not assert on property access. What happens here?
 
 ```javascript
 myVar.should.be.false;
@@ -154,12 +156,12 @@ myVar.should.be.false;
 myVar.should.be.undefied;
 ```
 
-The latter _doesn't_ fail no matter what `myVar` is because it _always_ returns
-`undefined`. And on that note, what about:
+The latter _doesn't_ fail no matter what `myVar` is because it
+[_always_ returns `undefined`](https://github.com/moll/js-must#asserting-on-property-access).
+And on that note, what about:
 
 ```javascript
 undefined.should.not.be.ok;
 ```
 
-This doesn't work as you cannot add functions to `undefined` and `null`.
-
+This doesn't work as you cannot add properties to `undefined` and `null`.
