@@ -1,12 +1,20 @@
-const isPromise = require('is-promise');
-const assertion = require('./assertion');
-const assertions = require('./assertions');
-const promises = require('./promises');
+import isPromise from 'is-promise';
+import stringify from './stringify';
+
+function assert(result, msg, err, expected) {
+    if (result === true) return;
+    return { msg, expected };
+}
+
+assert.not = function assertNot(result, msg, err, expected) {
+    if (result === false) return;
+    return { msg: err, expected };
+}
 
 function expect(actual) {
     return {
         to: test => {
-            const res = test(actual);
+            const res = test({ actual, assert, stringify });
 
             if (isPromise(res)) {
                 return res.then(
@@ -31,6 +39,4 @@ function throwIfError(res) {
     }
 }
 
-module.exports = {
-    expect, assertion, ...assertions, ...promises
-};
+export default expect;

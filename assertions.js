@@ -1,114 +1,58 @@
-const deepEqualTest = require('deep-equal');
+const isDeepEqual = require('deep-equal');
 
-const assertion = require('./assertion');
+const not = (test) => (obj) =>
+  test({ ...obj, assert: obj.assert.not });
 
-const not = test => actual => test(actual, { not: true });
+const equal = (expected) => ({ actual, assert, stringify }) =>
+  assert(actual === expected,
+    `Expected ${stringify(actual)} to equal ${stringify(expected)}`,
+    `Expected ${stringify(actual)} not to equal ${stringify(expected)}`);
 
-const equal = assertion(({ actual, expected, not, stringify }) => {
-    const isEqual = expected === actual;
-    if (not && isEqual) {
-        return `Expected ${stringify(actual)} not to equal ${stringify(expected)}`;
-    }
-    if (!not && !isEqual) {
-        return `Expected ${stringify(actual)} to equal ${stringify(expected)}`;
-    }
-});
+const deepEqual = (expected) => ({ actual, assert, stringify }) =>
+  assert(isDeepEqual(actual, expected),
+    `Expected ${stringify(actual)} to deep equal ${stringify(expected)}`,
+    `Expected ${stringify(actual)} not to deep equal ${stringify(expected)}`)
 
-const deepEqual = assertion(({ actual, expected, not, stringify }) => {
-    const isDeepEqual = deepEqualTest(actual, expected);
-    if (not && isDeepEqual) {
-        return `Expected ${stringify(actual)} not to deep equal ${stringify(expected)}`;
-    }
-    if (!not && !isDeepEqual) {
-        return `Expected ${stringify(actual)} to deep equal ${stringify(expected)}`;
-    }
-});
+const beTrue = () => ({ actual, assert, stringify }) =>
+  assert(actual === true,
+    `Expected ${stringify(actual)} to be true`,
+    `Expected ${stringify(actual)} not to be true`);
 
-const beTrue = assertion(({ actual, not, stringify }) => {
-    const isTrue = actual === true;
+const beFalse = () => ({ actual, assert, stringify }) =>
+  assert(actual === false,
+    `Expected ${stringify(actual)} to be false`,
+    `Expected ${stringify(actual)} not to be false`);
 
-    if (not && isTrue) {
-        return `Expected ${stringify(actual)} not to be true`;
-    }
-    if (!not && !isTrue) {
-        return `Expected ${stringify(actual)} to be true`;
-    }
-});
+const beTruthy = () => ({ actual, assert, stringify }) =>
+  assert(!!actual,
+    `Expected ${stringify(actual)} to be truthy`,
+    `Expected ${stringify(actual)} not to be truthy`);
 
-const beFalse = assertion(({ actual, not, stringify }) => {
-    const isFalse = actual === false;
+const beFalsy = () => ({ actual, assert, stringify }) =>
+  assert(!actual,
+    `Expected ${stringify(actual)} to be falsy`,
+    `Expected ${stringify(actual)} not to be falsy`);
 
-    if (not && isFalse) {
-        return `Expected ${stringify(actual)} not to be false`;
-    }
-    if (!not && !isFalse) {
-        return `Expected ${stringify(actual)} to be false`;
-    }
-});
+const beUndefined = () => ({ actual, assert, stringify }) =>
+  assert(actual === undefined,
+    `Expected ${stringify(actual)} to be undefined`,
+    `Expected ${stringify(actual)} not to be undefined`);
 
-const beTruthy = assertion(({ actual, not, stringify }) => {
-    const isTruthy = !!actual;
+const beNull = () => ({ actual, assert, stringify }) =>
+  assert(actual === null,
+    `Expected ${stringify(actual)} to be null`,
+    `Expected ${stringify(actual)} not to be null`);
 
-    if (not && isTruthy) {
-        return `Expected ${stringify(actual)} not to be truthy`;
-    }
-    if (!not && !isTruthy) {
-        return `Expected ${stringify(actual)} to be truthy`;
-    }
-});
+const contain = (item) => ({ actual: arr, assert, stringify }) =>
+  assert(arr.indexOf(item) > -1,
+    `Expected ${stringify(arr)} to contain ${stringify(item)}`,
+    `Expected ${stringify(arr)} not to contain ${stringify(item)}`);
 
-const beFalsy = assertion(({ actual, not, stringify }) => {
-    const isFalsy = !actual;
+const beA = (type) => ({ actual, assert, stringify }) => {
+};
 
-    if (not && isFalsy) {
-        return `Expected ${stringify(actual)} not to be falsy`;
-    }
-    if (!not && !isFalsy) {
-        return `Expected ${stringify(actual)} to be falsy`;
-    }
-});
-
-const beUndefined = assertion(({ actual, not, stringify }) => {
-    const isUndefined = actual === undefined;
-
-    if (not && isUndefined) {
-        return `Expected ${stringify(actual)} not to be undefined`;
-    }
-    if (!not && !isUndefined) {
-        return `Expected ${stringify(actual)} to be undefined`;
-    }
-});
-
-const beNull = assertion(({ actual, not, stringify }) => {
-    const isNull = actual === null;
-
-    if (not && isNull) {
-        return `Expected ${stringify(actual)} not to be null`;
-    }
-    if (!not && !isNull) {
-        return `Expected ${stringify(actual)} to be null`;
-    }
-});
-
-const contain = assertion(({ actual, expected, not, stringify }) => {
-    const arr = expected;
-    const item = actual;
-
-    const containsItem = arr.indexOf(item) > -1;
-
-    if (not && containsItem) {
-        return `Expected ${stringify(arr)} not to contain ${stringify(item)}`;
-    }
-    if (!not && !containsItem) {
-        return `Expected ${stringify(arr)} to contain ${stringify(item)}`;
-    }
-});
-
-const beA = assertion(({ actual, expected, not, stringify }) => {
-});
-
-const haveProperty = assertion(({ actual, expected, not, stringify }) => {
-});
+const haveProperty = (name) => ({ actual, assert, stringify }) => {
+};
 
 // exist
 // beEmpty
