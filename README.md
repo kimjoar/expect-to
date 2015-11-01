@@ -24,11 +24,11 @@ expect(true).to(beTrue);
 expect(true).to(not(beUndefined));
 ```
 
-Or, in a bigger example:
+Or, within the Mocha BDD interface:
 
 ```javascript
 import expect from 'expect-to';
-import { equal, beTrue } from 'expect-to-core';
+import { not, equal, beTrue } from 'expect-to-core';
 
 describe('my test', function() {
 
@@ -47,7 +47,16 @@ describe('my test', function() {
 });
 ```
 
-As an example of you to create an assertion, this is `equal`:
+Assertions available
+--------------------
+
+- FIX: [`expect-to-core`]() contains core assertions, such as `equal`, `beTrue`, `beEmpty` and `contains`.
+- FIX: [`expect-to-promises`]() contains handling of promises, such as `beFulfilled` and `beRejected`.
+
+Creating your own assertions
+----------------------------
+
+As an example of how to create an assertion, this is `equal`:
 
 ```javascript
 function equal(expected) {
@@ -74,14 +83,6 @@ const equal = (expected) => ({ actual, assert, stringify }) =>
     `Expected ${stringify(actual)} to equal ${stringify(expected)}`,
     `Expected ${stringify(actual)} not to equal ${stringify(expected)}`);
 ```
-
-Assertions available
---------------------
-
-- FIX: [`expect-to-core`]() contains core assertions, such as `equal`, `beTrue`, `beEmpty` and `contains`.
-- FIX: [`expect-to-promises`]() contains handling of promises, such as `beFulfilled` and `beRejected`.
-
-Written your own? Let me know!
 
 Why a new assertion library?
 ----------------------------
