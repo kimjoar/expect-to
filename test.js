@@ -31,6 +31,21 @@ describe('expected', () => {
             assertSuccess(res);
         });
 
+        it('with not succeeds when strings are not equal', () => {
+            const res = equal('test')('test2', { not: true });
+
+            assertSuccess(res);
+        });
+
+        it('with not fails when strings are equal', () => {
+            const res = equal('test')('test', { not: true });
+
+            assertError(res, {
+              expected: 'test',
+              actual: 'test'
+            });
+        });
+
         it('fails when strings are not equal', () => {
             const res = equal('test')('testing');
 
