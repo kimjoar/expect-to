@@ -28,7 +28,7 @@ expect(true).to(beTrue);
 expect(true).to(not(beUndefined));
 ```
 
-Or, within the Mocha BDD interface:
+Or, e.g. within the Mocha BDD interface:
 
 ```javascript
 import expect from 'expect-to';
@@ -36,15 +36,15 @@ import { not, equal, beTrue } from 'expect-to-core';
 
 describe('my test', function() {
 
-  it('should succeed when strings are equal', function() {
+  it('handles equality checks', function() {
     expect('test').to(equal('test'));
   });
 
-  it('with not, should succeed when strings are different', function() {
+  it('handles not for all assertions', function() {
     expect('test').to(not(equal('testing')));
   });
 
-  it('should be true', function() {
+  it('has many other helpers', function() {
     expect(true).to(beTrue);
   });
 
