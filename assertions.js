@@ -1,4 +1,4 @@
-const isDeepEqual = require('deep-equal');
+import isDeepEqual from 'deep-equal';
 
 const not = (test) => (obj) =>
   test({ ...obj, assert: obj.assert.not });
@@ -13,35 +13,45 @@ const deepEqual = (expected) => ({ actual, assert, stringify }) =>
     `Expected ${stringify(actual)} to deep equal ${stringify(expected)}`,
     `Expected ${stringify(actual)} not to deep equal ${stringify(expected)}`)
 
-const beTrue = () => ({ actual, assert, stringify }) =>
+const beTrue = ({ actual, assert, stringify }) =>
   assert(actual === true,
     `Expected ${stringify(actual)} to be true`,
     `Expected ${stringify(actual)} not to be true`);
 
-const beFalse = () => ({ actual, assert, stringify }) =>
+const beFalse = ({ actual, assert, stringify }) =>
   assert(actual === false,
     `Expected ${stringify(actual)} to be false`,
     `Expected ${stringify(actual)} not to be false`);
 
-const beTruthy = () => ({ actual, assert, stringify }) =>
+const beTruthy = ({ actual, assert, stringify }) =>
   assert(!!actual,
     `Expected ${stringify(actual)} to be truthy`,
     `Expected ${stringify(actual)} not to be truthy`);
 
-const beFalsy = () => ({ actual, assert, stringify }) =>
+const beFalsy = ({ actual, assert, stringify }) =>
   assert(!actual,
     `Expected ${stringify(actual)} to be falsy`,
     `Expected ${stringify(actual)} not to be falsy`);
 
-const beUndefined = () => ({ actual, assert, stringify }) =>
+const beUndefined = ({ actual, assert, stringify }) =>
   assert(actual === undefined,
     `Expected ${stringify(actual)} to be undefined`,
     `Expected ${stringify(actual)} not to be undefined`);
 
-const beNull = () => ({ actual, assert, stringify }) =>
+const beNull = ({ actual, assert, stringify }) =>
   assert(actual === null,
     `Expected ${stringify(actual)} to be null`,
     `Expected ${stringify(actual)} not to be null`);
+
+const exist = ({ actual, assert, stringify }) =>
+  assert(actual != null,
+    `Expected ${stringify(actual)} to exist`,
+    `Expected ${stringify(actual)} not to exist`);
+
+const beEmpty = ({ actual, assert, stringify }) =>
+  assert(actual.length === 0,
+    `Expected ${stringify(actual)} to be empty`,
+    `Expected ${stringify(actual)} not to be empty`);
 
 const contain = (item) => ({ actual: arr, assert, stringify }) =>
   assert(arr.indexOf(item) > -1,
@@ -58,4 +68,4 @@ const haveProperty = (name) => ({ actual, assert, stringify }) => {
 // beEmpty
 // match
 
-module.exports = { not, equal, beTrue };
+export { not, equal, beTrue, beFalse, beTruthy, beFalsy, beNull, beUndefined, exist, beEmpty, contain };
