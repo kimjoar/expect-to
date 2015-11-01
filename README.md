@@ -92,11 +92,12 @@ There are [many](http://chaijs.com/)
 [libraries](https://github.com/Automattic/expect.js)
 [out](https://github.com/power-assert-js/power-assert)
 [there](https://github.com/moll/js-must), but I haven't found one that matches
-what I want in an assertion library. These are _not_ complaints but the
+what I want in an assertion library. These are _not_ complaints of the
 existing libraries, they are different philosophies. What works for me is not
 necessarily the right choice for you.
 
-First of, I want them to feel like JavaScript, e.g. no chaining of assertions:
+First, I want my assertions to feel like JavaScript and I therefore don't want
+this style of chaining assertions:
 
 ```javascript
 someVar.should.be.a('string');
@@ -116,9 +117,12 @@ assert('kim' == user.name);
 assert('number' == typeof user.age);
 ```
 
+(Yep, I know [Power Assert](https://github.com/power-assert-js/power-assert)
+solves that problem.)
+
 It must also be extremely simple to extend. I want assertions for React,
 Sinon.js and others, but they shouldn't be built into the core itself — the
-core should be framework agnostic. But to me it's important that extensions
+core should be framework agnostic. To me it's important that extensions
 are first class members, not something that is tacked onto some prototype or
 added to an instance. This exludes things like:
 
@@ -139,7 +143,7 @@ beforeEach(function () {
 ```
 
 On that note, I also don't want to mix the test library with the assertion
-library. This also exludes things like:
+library. This also ecxludes things like:
 
 ```javascript
 test('equal test', function (t) {
@@ -166,3 +170,5 @@ undefined.should.not.be.ok;
 ```
 
 This doesn't work as you cannot add properties to `undefined` and `null`.
+
+`expect-to` is my attempt at building an assertion library that solves all of these problems.
