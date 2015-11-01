@@ -58,14 +58,14 @@ const contain = (item) => ({ actual: arr, assert, stringify }) =>
     `Expected ${stringify(arr)} to contain ${stringify(item)}`,
     `Expected ${stringify(arr)} not to contain ${stringify(item)}`);
 
-const beA = (type) => ({ actual, assert, stringify }) => {
-};
+const beInstanceOf = (expected) => ({ actual, assert, stringify }) =>
+  assert(actual instanceof expected,
+    `Expected ${stringify(actual)} to be instance of ${stringify(expected)}`,
+    `Expected ${stringify(actual)} not to be instance of ${stringify(expected)}`);
 
-const haveProperty = (name) => ({ actual, assert, stringify }) => {
-};
+const match = (regex) => ({ actual, assert, stringify }) =>
+  assert(regex.test(actual),
+    `Expected ${stringify(actual)} to match ${stringify(regex)}`,
+    `Expected ${stringify(actual)} not to match ${stringify(regex)}`);
 
-// exist
-// beEmpty
-// match
-
-export { not, equal, beTrue, beFalse, beTruthy, beFalsy, beNull, beUndefined, exist, beEmpty, contain };
+export { not, equal, beTrue, beFalse, beTruthy, beFalsy, beNull, beUndefined, exist, beEmpty, contain, beInstanceOf, match };

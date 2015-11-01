@@ -1,6 +1,6 @@
 import assert from 'assert';
 import expect from './';
-import { not, equal, beTrue, beFalse, beTruthy, beFalsy, beUndefined, beNull, exist, beEmpty, contain } from './assertions';
+import { not, equal, beTrue, beFalse, beTruthy, beFalsy, beUndefined, beNull, exist, beEmpty, contain, beInstanceOf, match } from './assertions';
 
 describe('expected', () => {
 
@@ -204,6 +204,51 @@ describe('expected', () => {
     it('fails when array does not contain item', () => {
       assert.throws(() => {
         expect([1,2,3]).to(contain(4));
+      });
+    });
+  });
+
+  describe('beInstanceOf', () => {
+    it('succeeds for dates', () => {
+      expect(new Date()).to(beInstanceOf(Date));
+    });
+
+    it('succeeds for objects', () => {
+      expect({}).to(beInstanceOf(Object));
+    });
+
+    it('succeeds for constructor functions', () => {
+      function C(){}
+      var o = new C();
+
+      expect(o).to(beInstanceOf(C));
+    });
+
+    it('fails when type does not match', () => {
+      assert.throws(() => {
+        expect(new Date()).to(beInstanceOf(String));
+      });
+    });
+
+    it('fails when different constructor function', () => {
+      function C(){}
+      function D(){}
+      var o = new C();
+
+      assert.throws(() => {
+        expect(o).to(beInstanceOf(D));
+      });
+    });
+  });
+
+  describe('match', () => {
+    it('succeeds when strings match', () => {
+      expect('Hello').to(match(/hello/i));
+    });
+
+    it('fails when strings does not match', () => {
+      assert.throws(() => {
+        expect('hola').to(match(/hello/));
       });
     });
   });
