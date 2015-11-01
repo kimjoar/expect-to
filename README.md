@@ -14,10 +14,6 @@ Installation
 $ npm install --save-dev expect-to expect-to-core
 ```
 
-The library relies on multiple new JavaScript features so you will need to
-transpile the code. If you are using Babel I suggest including the presets
-`es2015` and `stage-2`.
-
 Basic usage
 -----------
 

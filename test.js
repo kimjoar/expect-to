@@ -1,5 +1,5 @@
 import test from 'assert';
-import expect from './';
+import expect from './src';
 
 describe('expect-to', () => {
 

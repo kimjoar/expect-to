@@ -1,25 +1,36 @@
 {
   "name": "expect-to",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Assertion library based on pure functions",
-  "keywords": ["test", "expect", "assert", "assertion", "assertions", "tdd", "bdd"],
-  "main": "index.js",
+  "keywords": [
+    "test",
+    "expect",
+    "assert",
+    "assertion",
+    "assertions",
+    "tdd",
+    "bdd"
+  ],
+  "main": "dist/index.js",
   "dependencies": {
     "is-promise": "^2.0.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.0.15",
     "babel-core": "^6.0.14",
     "babel-preset-es2015": "^6.0.14",
     "mocha": "^2.2.5",
     "webpack": "^1.9.10"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register; exit 0"
+    "test": "mocha --compilers js:babel-core/register; exit 0",
+    "build": "babel src --out-dir dist",
+    "prepublish": "npm run build"
   },
   "author": "Kim Joar Bekkelund <kjbekkelund@gmail.com>",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/kjbekkelund/expect-to.git"
+    "type": "git",
+    "url": "https://github.com/kjbekkelund/expect-to.git"
   },
   "license": "MIT"
 }
