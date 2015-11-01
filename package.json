@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "deep-equal": "^1.0.1",
+    "fn.name": "^1.0.1",
     "is-promise": "^2.0.0"
   },
   "devDependencies": {

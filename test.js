@@ -10,9 +10,10 @@ describe('expected', () => {
     });
 
     it('fails when strings are not equal', () => {
-      assert.throws(() => {
-        expect('test').to(equal('testing'));
-      });
+      assert.throws(
+        () => expect('test').to(equal('testing')),
+        (err) => err.message === 'Expected "test" to equal "testing"'
+      );
     });
 
     it('with not succeeds when strings are not equal', () => {
@@ -20,9 +21,10 @@ describe('expected', () => {
     });
 
     it('with not fails when strings are equal', () => {
-      assert.throws(() => {
-        expect('test').to(not(equal('test')));
-      });
+      assert.throws(
+        () => expect('test').to(not(equal('test'))),
+        (err) => err.message === 'Expected "test" not to equal "test"'
+      );
     });
 
     it('succeeds when booleans are equal', () => {
@@ -30,9 +32,10 @@ describe('expected', () => {
     });
 
     it('fails when booleans are not equal', () => {
-      assert.throws(() => {
-        expect(true).to(equal(false));
-      });
+      assert.throws(
+        () => expect(true).to(equal(false)),
+        (err) => err.message === 'Expected true to equal false'
+      );
     });
 
     it('succeeds when same reference', () => {
@@ -44,9 +47,10 @@ describe('expected', () => {
       const ref1 = { name: 'kim' };
       const ref2 = { name: 'kim' };
 
-      assert.throws(() => {
-        expect(ref1).to(equal(ref2));
-      });
+      assert.throws(
+        () => expect(ref1).to(equal(ref2)),
+        (err) => err.message === 'Expected {\n  "name": "kim"\n} to equal {\n  "name": "kim"\n}'
+      );
     });
   });
 
@@ -73,9 +77,10 @@ describe('expected', () => {
     });
 
     it('fails when false', () => {
-      assert.throws(() => {
-        expect(false).to(beTrue);
-      });
+      assert.throws(
+        () => expect(false).to(beTrue),
+        (err) => err.message === 'Expected false to be true'
+      );
     });
   });
 
@@ -85,9 +90,10 @@ describe('expected', () => {
     });
 
     it('fails when true', () => {
-      assert.throws(() => {
-        expect(true).to(beFalse);
-      });
+      assert.throws(
+        () => expect(true).to(beFalse),
+        (err) => err.message === 'Expected true to be false'
+      );
     });
   });
 
@@ -101,15 +107,17 @@ describe('expected', () => {
     });
 
     it('fails when false', () => {
-      assert.throws(() => {
-        expect(false).to(beTruthy);
-      });
+      assert.throws(
+        () => expect(false).to(beTruthy),
+        (err) => err.message === 'Expected false to be truthy'
+      );
     });
 
     it('fails when empty string', () => {
-      assert.throws(() => {
-        expect('').to(beTruthy);
-      });
+      assert.throws(
+        () => expect('').to(beTruthy),
+        (err) => err.message === 'Expected "" to be truthy'
+      );
     });
   });
 
@@ -135,15 +143,17 @@ describe('expected', () => {
     });
 
     it('fails when true', () => {
-      assert.throws(() => {
-        expect(true).to(beFalsy);
-      });
+      assert.throws(
+        () => expect(true).to(beFalsy),
+        (err) => err.message === 'Expected true to be falsy'
+      );
     });
 
     it('fails when non-empty string', () => {
-      assert.throws(() => {
-        expect('test').to(beFalsy);
-      });
+      assert.throws(
+        () => expect('test').to(beFalsy),
+        (err) => err.message === 'Expected "test" to be falsy'
+      );
     });
   });
 
@@ -153,15 +163,17 @@ describe('expected', () => {
     });
 
     it('fails when null', () => {
-      assert.throws(() => {
-        expect(null).to(beUndefined);
-      });
+      assert.throws(
+        () => expect(null).to(beUndefined),
+        (err) => err.message === 'Expected [null] to be undefined'
+      );
     });
 
     it('fails when string', () => {
-      assert.throws(() => {
-        expect('').to(beUndefined);
-      });
+      assert.throws(
+        () => expect('').to(beUndefined),
+        (err) => err.message === 'Expected "" to be undefined'
+      );
     });
   });
 
@@ -171,15 +183,17 @@ describe('expected', () => {
     });
 
     it('fails when undefined', () => {
-      assert.throws(() => {
-        expect(undefined).to(beNull);
-      });
+      assert.throws(
+        () => expect(undefined).to(beNull),
+        (err) => err.message === 'Expected [undefined] to be null'
+      );
     });
 
     it('fails when string', () => {
-      assert.throws(() => {
-        expect('').to(beNull);
-      });
+      assert.throws(
+        () => expect('').to(beNull),
+        (err) => err.message === 'Expected "" to be null'
+      );
     });
   });
 
@@ -189,15 +203,17 @@ describe('expected', () => {
     });
 
     it('fails when undefined', () => {
-      assert.throws(() => {
-        expect(undefined).to(exist);
-      });
+      assert.throws(
+        () => expect(undefined).to(exist),
+        (err) => err.message === 'Expected [undefined] to exist'
+      );
     });
 
     it('fails when null', () => {
-      assert.throws(() => {
-        expect(null).to(exist);
-      });
+      assert.throws(
+        () => expect(null).to(exist),
+        (err) => err.message === 'Expected [null] to exist'
+      );
     });
   });
 
@@ -207,9 +223,10 @@ describe('expected', () => {
     });
 
     it('fails when array contains any items', () => {
-      assert.throws(() => {
-        expect([1]).to(beEmpty);
-      });
+      assert.throws(
+        () => expect([1]).to(beEmpty),
+        (err) => err.message === 'Expected [\n  1\n] to be empty'
+      );
     });
   });
 
@@ -219,9 +236,10 @@ describe('expected', () => {
     });
 
     it('fails when array does not contain item', () => {
-      assert.throws(() => {
-        expect([1,2,3]).to(contain(4));
-      });
+      assert.throws(
+        () => expect([1,2,3]).to(contain(4)),
+        (err) => err.message === 'Expected [\n  1\n  2\n  3\n] to contain 4'
+      );
     });
   });
 
@@ -242,9 +260,10 @@ describe('expected', () => {
     });
 
     it('fails when type does not match', () => {
-      assert.throws(() => {
-        expect(new Date()).to(beInstanceOf(String));
-      });
+      assert.throws(
+        () => expect({}).to(beInstanceOf(String)),
+        (err) => err.message === 'Expected {} to be instance of String'
+      );
     });
 
     it('fails when different constructor function', () => {
@@ -252,9 +271,10 @@ describe('expected', () => {
       function D(){}
       var o = new C();
 
-      assert.throws(() => {
-        expect(o).to(beInstanceOf(D));
-      });
+      assert.throws(
+        () => expect(o).to(beInstanceOf(D)),
+        (err) => err.message === 'Expected {} to be instance of D'
+      );
     });
   });
 
@@ -264,9 +284,10 @@ describe('expected', () => {
     });
 
     it('fails when strings does not match', () => {
-      assert.throws(() => {
-        expect('hola').to(match(/hello/));
-      });
+      assert.throws(
+        () => expect('hola').to(match(/hello/)),
+        (err) => err.message === 'Expected "hola" to match /hello/'
+      );
     });
   });
 

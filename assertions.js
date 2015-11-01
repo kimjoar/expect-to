@@ -1,4 +1,5 @@
 import isDeepEqual from 'deep-equal';
+import fnName from 'fn.name';
 
 const not = (test) => (obj) =>
   test({ ...obj, assert: obj.assert.not });
@@ -6,7 +7,8 @@ const not = (test) => (obj) =>
 const equal = (expected) => ({ actual, assert, stringify }) =>
   assert(actual === expected,
     `Expected ${stringify(actual)} to equal ${stringify(expected)}`,
-    `Expected ${stringify(actual)} not to equal ${stringify(expected)}`);
+    `Expected ${stringify(actual)} not to equal ${stringify(expected)}`,
+    expected);
 
 const deepEqual = (expected) => ({ actual, assert, stringify }) =>
   assert(isDeepEqual(actual, expected),
@@ -60,8 +62,8 @@ const contain = (item) => ({ actual: arr, assert, stringify }) =>
 
 const beInstanceOf = (expected) => ({ actual, assert, stringify }) =>
   assert(actual instanceof expected,
-    `Expected ${stringify(actual)} to be instance of ${stringify(expected)}`,
-    `Expected ${stringify(actual)} not to be instance of ${stringify(expected)}`);
+    `Expected ${stringify(actual)} to be instance of ${fnName(expected)}`,
+    `Expected ${stringify(actual)} not to be instance of ${fnName(expected)}`);
 
 const match = (regex) => ({ actual, assert, stringify }) =>
   assert(regex.test(actual),

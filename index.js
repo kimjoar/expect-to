@@ -16,24 +16,26 @@ function expect(actual) {
     to: test => {
       const res = test({ actual, assert, stringify });
 
+      const throwIf = throwIfError.bind(null, actual);
+
       if (isPromise(res)) {
         return res.then(
-          throwIfError,
-          throwIfError
+          throwIf,
+          throwIf
         );
       }
       else {
-        throwIfError(res);
+        throwIf(res);
       }
     }
   }
 }
 
-function throwIfError(res) {
+function throwIfError(actual, res) {
   if (res !== undefined) {
     const err = new Error(res.msg);
     err.expected = res.expected;
-    err.actual = res.actual;
+    err.actual = actual;
     err.showDiff = true;
     throw err;
   }
