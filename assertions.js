@@ -68,4 +68,4 @@ const match = (regex) => ({ actual, assert, stringify }) =>
     `Expected ${stringify(actual)} to match ${stringify(regex)}`,
     `Expected ${stringify(actual)} not to match ${stringify(regex)}`);
 
-export { not, equal, beTrue, beFalse, beTruthy, beFalsy, beNull, beUndefined, exist, beEmpty, contain, beInstanceOf, match };
+export { not, equal, deepEqual, beTrue, beFalse, beTruthy, beFalsy, beNull, beUndefined, exist, beEmpty, contain, beInstanceOf, match };

@@ -1,6 +1,6 @@
 import assert from 'assert';
 import expect from './';
-import { not, equal, beTrue, beFalse, beTruthy, beFalsy, beUndefined, beNull, exist, beEmpty, contain, beInstanceOf, match } from './assertions';
+import { not, equal, deepEqual, beTrue, beFalse, beTruthy, beFalsy, beUndefined, beNull, exist, beEmpty, contain, beInstanceOf, match } from './assertions';
 
 describe('expected', () => {
 
@@ -46,6 +46,23 @@ describe('expected', () => {
 
       assert.throws(() => {
         expect(ref1).to(equal(ref2));
+      });
+    });
+  });
+
+  describe('deepEqual', () => {
+    it('succeeds when deeply equal', () => {
+      const ref1 = { name: 'kim', arr: [1,2,3] };
+      const ref2 = { name: 'kim', arr: [1,2,3] };
+      expect(ref1).to(deepEqual(ref2));
+    });
+
+    it('fails when not deeply equal', () => {
+      const obj1 = { name: 'kim', arr: [1,2] };
+      const obj2 = { name: 'kim', arr: [1,2,3] };
+
+      assert.throws(() => {
+        expect(obj1).to(deepEqual(obj2));
       });
     });
   });
