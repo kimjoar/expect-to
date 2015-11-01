@@ -1,36 +1,25 @@
 {
   "name": "expect-to",
   "version": "0.1.0",
-  "description": "Assertion lib using pure functions",
+  "description": "Assertion library based on pure functions",
+  "keywords": ["test", "expect", "assert", "assertion", "assertions", "tdd", "bdd"],
   "main": "index.js",
   "dependencies": {
-    "deep-equal": "^1.0.1",
-    "fn.name": "^1.0.1",
     "is-promise": "^2.0.0"
   },
   "devDependencies": {
-    "babel": "^5.6.14",
-    "babel-core": "^5.4.7",
-    "babel-loader": "^5.1.3",
-    "bluebird": "^2.9.27",
-    "karma": "^0.12.36",
-    "karma-mocha": "^0.1.10",
-    "karma-mocha-reporter": "^1.0.2",
-    "karma-phantomjs-launcher": "^0.2.0",
-    "karma-sourcemap-loader": "^0.3.5",
-    "karma-webpack": "^1.5.1",
+    "babel-core": "^6.0.14",
+    "babel-preset-es2015": "^6.0.14",
     "mocha": "^2.2.5",
-    "node-libs-browser": "^0.5.2",
-    "object-assign": "^2.1.0",
-    "phantomjs": "^1.9.17",
     "webpack": "^1.9.10"
   },
   "scripts": {
-    "test": "npm run test-node && npm run test-web",
-    "test-node": "mocha --compilers js:babel/register; exit 0",
-    "test-web": "karma start karma.conf.js",
-    "test-web-watch": "karma start karma.conf.js --no-single-run"
+    "test": "mocha --compilers js:babel-core/register; exit 0"
   },
   "author": "Kim Joar Bekkelund <kjbekkelund@gmail.com>",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/kjbekkelund/expect-to.git"
+  },
   "license": "MIT"
 }
