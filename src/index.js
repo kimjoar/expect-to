@@ -15,8 +15,7 @@ function expect(actual) {
   return {
     to: test => {
       const res = test({ actual, assert, stringify });
-
-      const throwIf = throwIfError.bind(null, actual);
+      const throwIf = throwIfError(actual);
 
       if (isPromise(res)) {
         return res.then(
@@ -31,13 +30,15 @@ function expect(actual) {
   }
 }
 
-function throwIfError(actual, res) {
-  if (res !== undefined) {
-    const err = new Error(res.msg);
-    err.expected = res.expected;
-    err.actual = actual;
-    err.showDiff = true;
-    throw err;
+function throwIfError(actual) {
+  return function(res) {
+    if (res !== undefined) {
+      const err = new Error(res.msg);
+      err.expected = res.expected;
+      err.actual = actual;
+      err.showDiff = true;
+      throw err;
+    }
   }
 }
 
