@@ -6,38 +6,40 @@ function assert (result, msg, err, expected) {
   return { msg, expected }
 }
 
-assert.not = function assertNot (result, msg, err, expected) {
+assert.not = function assertNot (result, msg, msgNot, expected) {
   if (result === false) return
-  return { msg: err, expected }
+  return { msg: msgNot, expected }
 }
 
 function expect (actual) {
   return {
     to: test => {
       const res = test({ actual, assert, stringify })
-      const throwIf = throwIfError(actual)
+      const throwIfError = throwIfErrorFn(actual)
 
       if (isPromise(res)) {
         return res.then(
-          throwIf,
-          throwIf
+          throwIfError,
+          throwIfError
         )
       } else {
-        throwIf(res)
+        throwIfError(res)
       }
     }
   }
 }
 
-function throwIfError (actual) {
+function throwIfErrorFn (actual) {
   return function (res) {
-    if (res !== undefined) {
-      const err = new Error(res.msg)
+    if (res === undefined) return
+
+    const err = new Error(res.msg)
+    if (res.expected !== undefined) {
       err.expected = res.expected
       err.actual = actual
       err.showDiff = true
-      throw err
     }
+    throw err
   }
 }
 

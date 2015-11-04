@@ -42,4 +42,27 @@ describe('expect-to', () => {
       (err) => err.message === 'not message'
     )
   })
+
+  it('includes expected and actual in error if expected is passed on', () => {
+    const assertion = ({ assert }) => {
+      const expected = 'testing'
+      return assert(false, 'fail', 'not', expected)
+    }
+
+    test.throws(
+      () => expect('test').to(assertion),
+      (err) => err.actual === 'test' && err.expected === 'testing' && err.showDiff === true
+    )
+  })
+
+  it('does not include expected and actual in error if expected is not passed on', () => {
+    const assertion = ({ assert }) => {
+      return assert(false, 'fail', 'not')
+    }
+
+    test.throws(
+      () => expect('test').to(assertion),
+      (err) => err.actual === undefined && err.expected === undefined && err.showDiff === undefined
+    )
+  })
 })
