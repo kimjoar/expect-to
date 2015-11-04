@@ -30,12 +30,14 @@
     "karma-webpack": "^1.7.0",
     "mocha": "^2.2.5",
     "phantomjs": "^1.9.18",
+    "standard": "^5.3.1",
     "webpack": "^1.9.10"
   },
   "scripts": {
     "test": "npm run test-node && npm run test-web",
     "test-node": "mocha --compilers js:babel-core/register; exit 0",
     "test-web": "karma start karma.conf.js",
+    "lint": "standard src/index.js test.js",
     "build": "rm -rf dist; babel src --out-dir dist",
     "prepublish": "npm run build"
   },
