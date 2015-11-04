@@ -36,7 +36,7 @@
   },
   "scripts": {
     "test": "npm run test-node && npm run test-web",
-    "test-node": "mocha --compilers js:babel-core/register; exit 0",
+    "test-node": "mocha --compilers js:babel-core/register",
     "test-web": "karma start karma.conf.js",
     "lint": "standard src/index.js test.js",
     "build": "rm -rf dist; babel src --out-dir dist",
@@ -44,7 +44,7 @@
   },
   "pre-commit": [
     "lint",
-    "test"
+    "test-node"
   ],
   "author": "Kim Joar Bekkelund <kjbekkelund@gmail.com>",
   "repository": {
