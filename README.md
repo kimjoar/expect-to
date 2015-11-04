@@ -2,7 +2,7 @@ expect-to
 =========
 
 expect-to is an assertion library based on pure functions. It can be used in
-any JavaScript testing framework and it works in both Node.js and new browsers.
+most JavaScript testing frameworks and it works in both Node.js and browsers.
 
 [Why another assertion library?](#why-a-new-assertion-library)
 
@@ -17,10 +17,13 @@ Basic usage
 -----------
 
 ```javascript
-expect('test').to(equal('test'));
-expect('test').to(not(equal('testing')));
-expect(true).to(beTrue);
-expect(true).to(not(beUndefined));
+var foo = 'test';
+var bar = false;
+
+expect(foo).to(equal('test'));
+expect(foo).to(not(equal('testing')));
+expect(bar).to(beFalse);
+expect(bar).to(not(beUndefined));
 ```
 
 Or, e.g. within the Mocha BDD interface:
@@ -50,7 +53,8 @@ Assertions available
 --------------------
 
 - [`expect-to-core`](https://github.com/kjbekkelund/expect-to-core) contains core assertions, such as `equal`, `deepEqual`, `beTrue`, `beEmpty` and `match`.
-- FIX: [`expect-to-promises`]() contains handling of promises, such as `eventually`, `beResolved` and `beRejected`.
+
+Created other assertions on top of expect-to? [Let me know!](https://github.com/kjbekkelund/expect-to/pulls)
 
 Creating your own assertions
 ----------------------------
@@ -139,8 +143,14 @@ beforeEach(function () {
 });
 ```
 
+and:
+
+```
+chai.use(somePlugin);
+```
+
 On that note, I also don't want to mix the test library with the assertion
-library. This also ecxludes things like:
+library. This also excludes things like:
 
 ```javascript
 test('equal test', function (t) {
@@ -153,22 +163,21 @@ It _must_ also end up calling a function, not assert on property access. What
 happens here?
 
 ```javascript
-myVar.should.be.false;
+foo.should.be.false;
 
 // or maybe a test with a small typo
-myVar.should.be.undefied;
+bar.should.be.undefied;
 ```
 
-The latter _doesn't_ fail no matter what `myVar` is because it
+The latter _doesn't_ fail no matter what `bar` is because it
 [_always_ returns `undefined`](https://github.com/moll/js-must#asserting-on-property-access).
 And on that note, what about:
 
 ```javascript
-undefined.should.not.be.ok;
+var bar = undefined;
+bar.should.not.be.ok;
 ```
 
 This doesn't work as you cannot add properties to `undefined` and `null`.
-
-And on that example, I never remember what `ok` actually means without checking the docs.
 
 `expect-to` is my attempt at building an assertion library that solves all of these problems.
