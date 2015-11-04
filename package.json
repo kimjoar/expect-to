@@ -30,6 +30,7 @@
     "karma-webpack": "^1.7.0",
     "mocha": "^2.2.5",
     "phantomjs": "^1.9.18",
+    "pre-commit": "^1.1.2",
     "standard": "^5.3.1",
     "webpack": "^1.9.10"
   },
@@ -41,6 +42,10 @@
     "build": "rm -rf dist; babel src --out-dir dist",
     "prepublish": "npm run build"
   },
+  "pre-commit": [
+    "lint",
+    "test"
+  ],
   "author": "Kim Joar Bekkelund <kjbekkelund@gmail.com>",
   "repository": {
     "type": "git",
