@@ -33,7 +33,9 @@
     "webpack": "^1.9.10"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register; exit 0",
+    "test": "npm run test-node && npm run test-web",
+    "test-node": "mocha --compilers js:babel-core/register; exit 0",
+    "test-web": "karma start karma.conf.js",
     "build": "rm -rf dist; babel src --out-dir dist",
     "prepublish": "npm run build"
   },
