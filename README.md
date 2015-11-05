@@ -35,15 +35,16 @@ import { not, equal, beTrue } from 'expect-to-core';
 describe('my test', function() {
 
   it('handles equality checks', function() {
-    expect('test').to(equal('test'));
+    expect('foo').to(equal('foo'));
   });
 
-  it('handles not for all assertions', function() {
-    expect('test').to(not(equal('testing')));
+  it('handles `not` for all assertions', function() {
+    expect('foo').to(not(equal('bar')));
   });
 
   it('has many other helpers', function() {
-    expect(true).to(beTrue);
+    const myVar = true;
+    expect(myVar).to(beTrue);
   });
 
 });
@@ -75,8 +76,12 @@ function equal(expected) {
 And this is how you use it:
 
 ```javascript
-expect('test').to(equal('test'));
-expect('test').to(not(equal('testing')));
+expect('foo').to(equal('foo'));
+expect('foo').to(not(equal('bar')));
+
+// And just to use the same variable names
+// as in the implementation of equal:
+expect(actual).to(equal(expected));
 ```
 
 You can also write the assertion using arrow functions:
