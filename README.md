@@ -53,6 +53,7 @@ Assertions available
 --------------------
 
 - [`expect-to-core`](https://github.com/kjbekkelund/expect-to-core) contains core assertions, such as `equal`, `deepEqual`, `beTrue`, `beEmpty` and `match`.
+- [`expect-to-promises`](https://github.com/kjbekkelund/expect-to-promises) contains assertions for promises, such as `eventually` (...aaand more coming).
 
 Created other assertions on top of expect-to? [Let me know!](https://github.com/kjbekkelund/expect-to/pulls)
 
