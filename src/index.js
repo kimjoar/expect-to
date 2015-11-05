@@ -2,13 +2,15 @@ import isPromise from 'is-promise'
 import stringify from './stringify'
 
 function assert (result, msg, err, expected) {
-  if (result === true) return
-  return { msg, expected, not: false }
+  if (result !== true) {
+    return { msg, expected }
+  }
 }
 
 assert.not = function assertNot (result, msg, msgNot, expected) {
-  if (result === false) return
-  return { msg: msgNot, expected, not: true }
+  if (result !== false) {
+    return { msg: msgNot, expected }
+  }
 }
 
 function expect (actual) {

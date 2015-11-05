@@ -43,22 +43,6 @@ describe('expect-to', () => {
     )
   })
 
-  it('includes not=true when not', () => {
-    const assertion = ({ assert }) => {
-      const asrt = assert(false)
-      const notAsrt = assert.not(true)
-
-      test.equal(asrt.not, false)
-      test.equal(notAsrt.not, true)
-
-      // return a clean assert as we have already
-      // tested what we want
-      return assert(true)
-    }
-
-    expect('test').to(assertion)
-  })
-
   it('includes expected and actual in error if expected is passed on', () => {
     const assertion = ({ assert }) => {
       const expected = 'testing'
