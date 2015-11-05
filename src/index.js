@@ -3,12 +3,12 @@ import stringify from './stringify'
 
 function assert (result, msg, err, expected) {
   if (result === true) return
-  return { msg, expected }
+  return { msg, expected, not: false }
 }
 
 assert.not = function assertNot (result, msg, msgNot, expected) {
   if (result === false) return
-  return { msg: msgNot, expected }
+  return { msg: msgNot, expected, not: true }
 }
 
 function expect (actual) {
