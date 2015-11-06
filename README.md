@@ -93,6 +93,22 @@ const equal = (expected) => ({ actual, assert, stringify }) =>
     `Expected ${stringify(actual)} not to equal ${stringify(expected)}`);
 ```
 
+And if you want to create an assertion like `beUndefined`, it would only be:
+
+```javascript
+const equal = ({ actual, assert, stringify }) =>
+  assert(actual === undefined,
+    `Expected ${stringify(actual)} to be undefined`,
+    `Expected ${stringify(actual)} to not be undefined`);
+```
+
+And you can use it like this:
+
+```
+expect(undefined).to(beUndefined);
+expect('testing').to(not(beUndefined));
+```
+
 Why a new assertion library?
 ----------------------------
 
