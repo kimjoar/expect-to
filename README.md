@@ -96,7 +96,7 @@ const equal = (expected) => ({ actual, assert, stringify }) =>
 And if you want to create an assertion like `beUndefined`, it would only be:
 
 ```javascript
-const equal = ({ actual, assert, stringify }) =>
+const beUndefined = ({ actual, assert, stringify }) =>
   assert(actual === undefined,
     `Expected ${stringify(actual)} to be undefined`,
     `Expected ${stringify(actual)} to not be undefined`);
