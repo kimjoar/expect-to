@@ -1,6 +1,6 @@
 {
   "name": "expect-to",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Assertion library based on pure functions",
   "keywords": [
     "test",
