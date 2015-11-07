@@ -55,7 +55,7 @@ describe('expect-to', () => {
     )
   })
 
-  it('sets showDiff=false in only actual in error', () => {
+  it('sets showDiff=false if only actual in error', () => {
     const assertion = ({ assert }) => {
       return assert(false, 'fail', 'not')
     }
