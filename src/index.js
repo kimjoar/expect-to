@@ -1,4 +1,6 @@
 import isPromise from 'is-promise'
+import AssertionError from 'assertion-error'
+
 import stringify from './stringify'
 
 function assert (result, msg, err, expected) {
@@ -35,12 +37,12 @@ function throwIfErrorFn (actual) {
   return function (res) {
     if (res === undefined) return
 
-    const err = new Error(res.msg)
-    if (res.expected !== undefined) {
-      err.expected = res.expected
-      err.actual = actual
-      err.showDiff = true
-    }
+    const err = new AssertionError(res.msg, {
+      actual: actual,
+      expected: res.expected,
+      showDiff: res.expected !== undefined
+    })
+
     throw err
   }
 }

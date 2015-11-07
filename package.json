@@ -13,6 +13,7 @@
   ],
   "main": "dist/index.js",
   "dependencies": {
+    "assertion-error": "^1.0.1",
     "is-promise": "^2.0.0"
   },
   "devDependencies": {
