@@ -1,8 +1,9 @@
 expect-to
 =========
 
-expect-to is an assertion library based on pure functions. It can be used in
-most JavaScript testing frameworks and it works in both Node.js and browsers.
+expect-to is an assertion library based on pure functions. It is very easy to
+extend with new assertions, it can be used in most JavaScript testing
+frameworks and it works in both Node.js and browsers.
 
 [Why another assertion library?](#why-a-new-assertion-library)
 
