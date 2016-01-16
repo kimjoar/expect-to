@@ -65,4 +65,20 @@ describe('expect-to', () => {
       (err) => err.actual === 'test' && err.expected === undefined && err.showDiff === false
     )
   })
+
+  it('allows chaining', () => {
+    let count = 0
+    expect('test')
+      .to(() => {
+        count++
+      })
+      .to(() => {
+        count++
+      })
+      .to(() => {
+        count++
+      })
+
+    test.equal(count, 3)
+  })
 })

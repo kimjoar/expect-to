@@ -17,7 +17,7 @@ assert.not = function assertNot (result, msg, msgNot, expected) {
 
 function expect (actual) {
   return {
-    to: test => {
+    to (test) {
       const res = test({ actual, assert, stringify })
       const throwIfError = throwIfErrorFn(actual)
 
@@ -29,6 +29,8 @@ function expect (actual) {
       } else {
         throwIfError(res)
       }
+
+      return this
     }
   }
 }
