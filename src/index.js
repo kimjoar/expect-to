@@ -50,3 +50,5 @@ function throwIfErrorFn (actual) {
 }
 
 export default expect
+export * from 'expect-to-core'
+

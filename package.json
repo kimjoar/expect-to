@@ -14,6 +14,7 @@
   "main": "dist/index.js",
   "dependencies": {
     "assertion-error": "^1.0.1",
+    "expect-to-core": "^0.6.1",
     "is-promise": "^2.0.0"
   },
   "devDependencies": {

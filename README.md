@@ -11,7 +11,7 @@ Installation
 ------------
 
 ```
-$ npm install --save-dev expect-to expect-to-core
+$ npm install --save-dev expect-to
 ```
 
 Basic usage
@@ -30,8 +30,7 @@ expect(bar).to(not(beUndefined));
 Or, e.g. within the Mocha BDD interface:
 
 ```javascript
-import expect from 'expect-to';
-import { not, equal, beTrue } from 'expect-to-core';
+import expect, { not, equal, beTrue } from 'expect-to';
 
 describe('my test', function() {
 
@@ -54,7 +53,7 @@ describe('my test', function() {
 Assertions available
 --------------------
 
-- [`expect-to-core`](https://github.com/kjbekkelund/expect-to-core) contains core assertions, such as `equal`, `deepEqual`, `beTrue`, `beEmpty` and `match`.
+- [`expect-to-core`](https://github.com/kjbekkelund/expect-to-core) contains core assertions, such as `equal`, `deepEqual`, `beTrue`, `beEmpty` and `match`. Included by default.
 - [`expect-to-promises`](https://github.com/kjbekkelund/expect-to-promises) contains the powerful `eventually` for promises.
 
 Created other assertions on top of expect-to? [Let me know!](https://github.com/kjbekkelund/expect-to/pulls)
@@ -88,7 +87,7 @@ expect(actual).to(equal(expected));
 You can also write the assertion using arrow functions:
 
 ```javascript
-const equal = (expected) => ({ actual, assert, stringify }) =>
+const equal = expected => ({ actual, assert, stringify }) =>
   assert(actual === expected,
     `Expected ${stringify(actual)} to equal ${stringify(expected)}`,
     `Expected ${stringify(actual)} not to equal ${stringify(expected)}`);

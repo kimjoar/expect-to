@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 
 import test from 'assert'
-import expect from './src'
+import expect, { equal, not } from './src'
 
 describe('expect-to', () => {
   it('triggers callback', () => {
@@ -80,5 +80,10 @@ describe('expect-to', () => {
       })
 
     test.equal(count, 3)
+  })
+
+  it('exports core methods', () => {
+    expect('foo').to(equal('foo'))
+    expect('foo').to(not(equal('bar')))
   })
 })
