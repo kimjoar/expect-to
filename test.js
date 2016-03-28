@@ -5,7 +5,7 @@ import sinon from 'sinon'
 
 import { formatMsg } from './src/msg'
 import * as msg from './src/msg'
-import expect, { equal, not } from './src'
+import expect, { be, not } from './src'
 
 const stubs = []
 
@@ -89,8 +89,8 @@ describe('expect-to', () => {
   })
 
   it('exports core methods', () => {
-    expect('foo').to(equal('foo'))
-    expect('foo').to(not(equal('bar')))
+    expect('foo').to(be('foo'))
+    expect('foo').to(not(be('bar')))
   })
 
   describe('assert msg', () => {
@@ -104,7 +104,7 @@ describe('expect-to', () => {
       try {
         expect().to(({ assert }) => assert(false, ['msg %d', 2], 'msgNot', 2))
       } catch (err) {
-        expect(err.message).to(equal('msg 2'))
+        expect(err.message).to(be('msg 2'))
       }
 
       sinon.assert.calledOnce(msg.formatMsg)
