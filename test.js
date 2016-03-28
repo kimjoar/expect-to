@@ -72,20 +72,58 @@ describe('expect-to', () => {
     )
   })
 
-  it('allows chaining', () => {
-    let count = 0
-    expect('test')
-      .to(() => {
-        count++
-      })
-      .to(() => {
-        count++
-      })
-      .to(() => {
-        count++
-      })
+  describe('chaining', () => {
+    it('is possible', () => {
+      let count = 0
+      expect('test')
+        .to(() => {
+          count++
+        })
+        .to(() => {
+          count++
+        })
+        .to(() => {
+          count++
+        })
 
-    test.equal(count, 3)
+      test.equal(count, 3)
+    })
+
+    it('throws the first error when it fails', () => {
+      const fail = ({ assert }) => assert(false, 'failed', 'not failed')
+      const fail2 = ({ assert }) => assert(false, 'failed2', 'not failed 2')
+
+      test.throws(
+        () =>
+          expect('test')
+            .to(fail)
+            .to(fail2),
+        (err) => err.message === 'failed'
+      )
+    })
+
+    it('works when using "not"', () => {
+      expect('foo')
+        .to(be('foo'))
+        .to(not(be('bar')))
+
+      test.throws(
+        () =>
+          expect('foo')
+            .to(be('bar'))
+            .to(not(be('foo'))),
+        (err) => err.message === 'expect-to assertion failure: expected "foo" to be "bar"'
+
+      )
+
+      test.throws(
+        () =>
+          expect('foo')
+            .to(not(be('foo')))
+            .to(be('bar')),
+        (err) => err.message === 'expect-to assertion failure: expected "foo" not to be "foo"'
+      )
+    })
   })
 
   it('exports core methods', () => {
