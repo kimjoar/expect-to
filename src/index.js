@@ -2,16 +2,17 @@ import isPromise from 'is-promise'
 import AssertionError from 'assertion-error'
 
 import stringify from './stringify'
+import { formatMsg } from './msg'
 
 function assert (result, msg, err, expected) {
   if (result !== true) {
-    return { msg, expected }
+    return { msg: formatMsg(msg), expected }
   }
 }
 
 assert.not = function assertNot (result, msg, msgNot, expected) {
   if (result !== false) {
-    return { msg: msgNot, expected }
+    return { msg: formatMsg(msgNot), expected }
   }
 }
 
@@ -51,4 +52,3 @@ function throwIfErrorFn (actual) {
 
 export default expect
 export * from 'expect-to-core'
-
