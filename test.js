@@ -22,8 +22,8 @@ describe('expect-to', () => {
     expect('test').to(({ actual, assert, stringify }) => {
       test.equal(actual, 'test')
       test.equal(typeof assert, 'function')
-      test.equal(stringify('test'), '"test"')
-      test.equal(stringify([1, 2, 3]), '[\n  1\n  2\n  3\n]')
+      test.equal(stringify('test'), '\'test\'')
+      test.equal(stringify([1, 2, 3]), '[ 1, 2, 3 ]')
     })
   })
 
@@ -154,7 +154,7 @@ describe('expect-to', () => {
       it('stringifies the arg', () => {
         const arg = { baz: 1 }
         const out = formatMsg(['foo %j bar', arg])
-        test.equal(out, `foo {\n  "baz": 1\n} bar`)
+        test.equal(out, 'foo { baz: 1 } bar')
       })
     })
 
