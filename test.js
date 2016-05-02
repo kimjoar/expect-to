@@ -18,12 +18,10 @@ describe('expect-to', () => {
     test.equal(count, 1)
   })
 
-  it('injects actual, assert and stringify', () => {
-    expect('test').to(({ actual, assert, stringify }) => {
+  it('injects actual, assert', () => {
+    expect('test').to(({ actual, assert }) => {
       test.equal(actual, 'test')
       test.equal(typeof assert, 'function')
-      test.equal(stringify('test'), '\'test\'')
-      test.equal(stringify([1, 2, 3]), '[ 1, 2, 3 ]')
     })
   })
 
@@ -112,8 +110,7 @@ describe('expect-to', () => {
           expect('foo')
             .to(be('bar'))
             .to(not(be('foo'))),
-        (err) => err.message === 'expect-to assertion failure: expected "foo" to be "bar"'
-
+        (err) => err.message === "expect-to assertion failure: expected 'foo' to be 'bar'"
       )
 
       test.throws(
@@ -121,7 +118,7 @@ describe('expect-to', () => {
           expect('foo')
             .to(not(be('foo')))
             .to(be('bar')),
-        (err) => err.message === 'expect-to assertion failure: expected "foo" not to be "foo"'
+        (err) => err.message === "expect-to assertion failure: expected 'foo' not to be 'foo'"
       )
     })
   })

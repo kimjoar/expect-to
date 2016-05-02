@@ -1,7 +1,6 @@
 import isPromise from 'is-promise'
 import AssertionError from 'assertion-error'
 
-import loupe from 'loupe'
 import { formatMsg } from './msg'
 
 function assert (result, msg, err, expected) {
@@ -19,7 +18,7 @@ assert.not = function assertNot (result, msg, msgNot, expected) {
 function expect (actual) {
   return {
     to (test) {
-      const res = test({ actual, assert, stringify: loupe })
+      const res = test({ actual, assert })
       const throwIfError = throwIfErrorFn(actual)
 
       if (isPromise(res)) {
