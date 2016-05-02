@@ -1,8 +1,8 @@
-import stringify from './stringify'
+import loupe from 'loupe'
 import customUtilFormat from 'custom-util-format'
 
 const format = customUtilFormat({
-  j: stringify
+  j: loupe
 })
 
 export function formatMsg(msg) {
