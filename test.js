@@ -7,8 +7,6 @@ import { formatMsg } from './src/msg'
 import * as msg from './src/msg'
 import expect, { be, not } from './src'
 
-const stubs = []
-
 describe('expect-to', () => {
   it('triggers callback', () => {
     let count = 0
@@ -121,6 +119,7 @@ describe('expect-to', () => {
   })
 
   describe('assert msg', () => {
+    const stubs = []
     beforeEach(() => stubs.push(sinon.spy(msg, 'formatMsg')))
     afterEach(() => stubs.splice(0).forEach((s) => s.restore()))
 
