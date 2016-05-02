@@ -148,4 +148,60 @@ describe('expect-to', () => {
       })
     })
   })
+
+  describe('mocha compat', () => {
+    function failAssert (errMsg, expected) {
+      expect({ a: 1 }).to(({ assert }) =>
+        assert(false, errMsg, 'not ' + errMsg, expected)
+      )
+    }
+
+    context('error message starts with "expected"', () => {
+      context('assertion has an expected value', () => {
+        it('prefixes error messages', () => {
+          try {
+            failAssert('expected value', 1)
+            test.ok(false, 'Expected assertion to fail')
+          } catch (err) {
+            test.deepEqual(err.message, 'expect-to assertion failure: expected value')
+          }
+        })
+      })
+
+      context('assertion has no expected value', () => {
+        it('does not prefix error messages', () => {
+          try {
+            failAssert('expected nothing')
+            test.ok(false, 'Expected assertion to fail')
+          } catch (err) {
+            test.deepEqual(err.message, 'expected nothing')
+          }
+        })
+      })
+    })
+
+    context('error message starts with "Expected"', () => {
+      context('assertion has an expected value', () => {
+        it('prefixes error messages', () => {
+          try {
+            failAssert('Expected something', 1)
+            test.ok(false, 'Expected assertion to fail')
+          } catch (err) {
+            test.deepEqual(err.message, 'expect-to assertion failure: expected something')
+          }
+        })
+      })
+
+      context('assertion has no expected value', () => {
+        it('does not prefix error messages', () => {
+          try {
+            failAssert('Expected nothing')
+            test.ok(false, 'Expected assertion to fail')
+          } catch (err) {
+            test.deepEqual(err.message, 'Expected nothing')
+          }
+        })
+      })
+    })
+  })
 })
