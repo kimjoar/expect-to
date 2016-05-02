@@ -31,7 +31,13 @@ module.exports = function(config) {
             exclude: /(node_modules)/,
             loader: 'babel'
           }
-        ]
+        ],
+        noParse: /sinon/
+      },
+      resolve: {
+        alias: {
+          sinon$: 'sinon/pkg/sinon.js'
+        }
       },
       devtool: 'inline-source-map'
     },

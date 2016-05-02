@@ -65,10 +65,10 @@ As an example of how to create an assertion, this is `equal`:
 
 ```javascript
 function equal(expected) {
-  return function({ actual, assert, stringify }) {
+  return function({ actual, assert }) {
     return assert(actual === expected,
-      `Expected ${stringify(actual)} to equal ${stringify(expected)}`,
-      `Expected ${stringify(actual)} not to equal ${stringify(expected)}`);
+      [`Expected %j to equal %j`, actual, expected],
+      [`Expected %j not to equal %j`, actual, expected]);
   }
 }
 ```
@@ -99,15 +99,19 @@ And if you want to create an assertion like `beUndefined`, it would only be:
 const beUndefined = ({ actual, assert, stringify }) =>
   assert(actual === undefined,
     `Expected ${stringify(actual)} to be undefined`,
-    `Expected ${stringify(actual)} to not be undefined`);
+    [`Expected %j to not be undefined`, actual]);
 ```
 
 And you can use it like this:
 
-```
+```js
 expect(undefined).to(beUndefined);
 expect('testing').to(not(beUndefined));
 ```
+
+Also, what's up with those error messages?
+
+Using the array syntax is exactly like inlining variables formatted with the `stringify()` function, except that (potentially costly) object serialization is only done when necessary. The `%j` flag is a part of the [`util.format()` api](https://nodejs.org/api/util.html#util_util_format_format), which expect-to is using under the hood, so checkout those docs if you are not familiar.
 
 Why a new assertion library?
 ----------------------------
