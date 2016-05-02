@@ -116,35 +116,35 @@ describe('expect-to', () => {
       it('stringifies the arg', () => {
         const arg = { baz: 1 }
         const out = formatMsg(['foo %j bar', arg])
-        expect(out).to(equal(`foo {\n  "baz": 1\n} bar`))
+        test.equal(out, `foo {\n  "baz": 1\n} bar`)
       })
     })
 
     describe('%s placeholder', () => {
       it('stringifies with string constructor', () => {
-        expect(formatMsg(['%s %s', {}])).to(equal('[object Object] %s'))
+        test.equal(formatMsg(['%s %s', {}]), '[object Object] %s')
       })
 
       it('stringifies with string constructor', () => {
-        expect(formatMsg(['-> %s', 'string'])).to(equal('-> string'))
+        test.equal(formatMsg(['-> %s', 'string']), '-> string')
       })
     })
 
     describe('%d placeholder', () => {
       it('formats the arg as a number', () => {
-        expect(formatMsg(['(%d)', {}])).to(equal('(NaN)'))
+        test.equal(formatMsg(['(%d)', {}]), '(NaN)')
       })
 
       it('formats the arg as a number', () => {
-        expect(formatMsg(['** %d', Math.PI])).to(equal('** 3.141592653589793'))
+        test.equal(formatMsg(['** %d', Math.PI]), '** 3.141592653589793')
       })
 
       it('formats the arg as a number', () => {
-        expect(formatMsg(['& %d &', 55])).to(equal('& 55 &'))
+        test.equal(formatMsg(['& %d &', 55]), '& 55 &')
       })
 
       it('formats the arg as a number', () => {
-        expect(formatMsg(['%d', /not a number/])).to(equal('NaN'))
+        test.equal(formatMsg(['%d', /not a number/]), 'NaN')
       })
     })
   })
