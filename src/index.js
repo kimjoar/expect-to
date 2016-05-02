@@ -40,13 +40,16 @@ function throwIfErrorFn (actual) {
   return function (res) {
     if (res === undefined) return
 
-    const err = new AssertionError(res.msg, {
-      actual: actual,
-      expected: res.expected,
-      showDiff: res.expected !== undefined
-    })
+    let { expected, msg } = res;
+    if (msg.startsWith('Expected')) {
+      // if the error starts with "Expected" then lower case the error message
+      // to make it compatible with strange mochajs error rendering rule:
+      // https://github.com/mochajs/mocha/blob/c0f9be244bff479e948f59d1bdb825a45c2cb40c/lib/reporters/base.js#L208-L209
+      msg = 'e' + msg.slice(1)
+    }
 
-    throw err
+    const showDiff = expected !== undefined
+    throw new AssertionError(`expect-to assertion failure: ${msg}`, { showDiff, actual, expected })
   }
 }
 
