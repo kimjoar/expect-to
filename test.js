@@ -26,9 +26,7 @@ describe('expect-to', () => {
   })
 
   it('throws when assert is false', () => {
-    const assertion = ({ assert }) => {
-      return assert(false, 'failed message', 'not message')
-    }
+    const assertion = ({ assert }) => assert(false, 'failed message', 'not message')
 
     test.throws(
       () => expect('test').to(assertion),
@@ -37,9 +35,7 @@ describe('expect-to', () => {
   })
 
   it('throws when not and assert is true', () => {
-    const assertion = ({ assert }) => {
-      return assert.not(true, 'failed message', 'not message')
-    }
+    const assertion = ({ assert }) => assert.not(true, 'failed message', 'not message')
 
     test.throws(
       () => expect('test').to(assertion),
@@ -48,10 +44,8 @@ describe('expect-to', () => {
   })
 
   it('sets showDiff=true if both expected and actual in error', () => {
-    const assertion = ({ assert }) => {
-      const expected = 'testing'
-      return assert(false, 'fail', 'not', expected)
-    }
+    const expected = 'testing'
+    const assertion = ({ assert }) => assert(false, 'fail', 'not', expected)
 
     test.throws(
       () => expect('test').to(assertion),
@@ -60,9 +54,7 @@ describe('expect-to', () => {
   })
 
   it('sets showDiff=false if only actual in error', () => {
-    const assertion = ({ assert }) => {
-      return assert(false, 'fail', 'not')
-    }
+    const assertion = ({ assert }) => assert(false, 'fail', 'not')
 
     test.throws(
       () => expect('test').to(assertion),
