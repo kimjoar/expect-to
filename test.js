@@ -7,8 +7,6 @@ import { formatMsg } from './src/msg'
 import * as msg from './src/msg'
 import expect, { be, not } from './src'
 
-const stubs = []
-
 describe('expect-to', () => {
   it('triggers callback', () => {
     let count = 0
@@ -18,19 +16,15 @@ describe('expect-to', () => {
     test.equal(count, 1)
   })
 
-  it('injects actual, assert and stringify', () => {
-    expect('test').to(({ actual, assert, stringify }) => {
+  it('injects actual, assert', () => {
+    expect('test').to(({ actual, assert }) => {
       test.equal(actual, 'test')
       test.equal(typeof assert, 'function')
-      test.equal(stringify('test'), '\'test\'')
-      test.equal(stringify([1, 2, 3]), '[ 1, 2, 3 ]')
     })
   })
 
   it('throws when assert is false', () => {
-    const assertion = ({ assert }) => {
-      return assert(false, 'failed message', 'not message')
-    }
+    const assertion = ({ assert }) => assert(false, 'failed message', 'not message')
 
     test.throws(
       () => expect('test').to(assertion),
@@ -39,9 +33,7 @@ describe('expect-to', () => {
   })
 
   it('throws when not and assert is true', () => {
-    const assertion = ({ assert }) => {
-      return assert.not(true, 'failed message', 'not message')
-    }
+    const assertion = ({ assert }) => assert.not(true, 'failed message', 'not message')
 
     test.throws(
       () => expect('test').to(assertion),
@@ -50,10 +42,8 @@ describe('expect-to', () => {
   })
 
   it('sets showDiff=true if both expected and actual in error', () => {
-    const assertion = ({ assert }) => {
-      const expected = 'testing'
-      return assert(false, 'fail', 'not', expected)
-    }
+    const expected = 'testing'
+    const assertion = ({ assert }) => assert(false, 'fail', 'not', expected)
 
     test.throws(
       () => expect('test').to(assertion),
@@ -62,9 +52,7 @@ describe('expect-to', () => {
   })
 
   it('sets showDiff=false if only actual in error', () => {
-    const assertion = ({ assert }) => {
-      return assert(false, 'fail', 'not')
-    }
+    const assertion = ({ assert }) => assert(false, 'fail', 'not')
 
     test.throws(
       () => expect('test').to(assertion),
@@ -112,8 +100,7 @@ describe('expect-to', () => {
           expect('foo')
             .to(be('bar'))
             .to(not(be('foo'))),
-        (err) => err.message === 'expect-to assertion failure: expected "foo" to be "bar"'
-
+        (err) => err.message === "expect-to assertion failure: expected 'foo' to be 'bar'"
       )
 
       test.throws(
@@ -121,7 +108,7 @@ describe('expect-to', () => {
           expect('foo')
             .to(not(be('foo')))
             .to(be('bar')),
-        (err) => err.message === 'expect-to assertion failure: expected "foo" not to be "foo"'
+        (err) => err.message === "expect-to assertion failure: expected 'foo' not to be 'foo'"
       )
     })
   })
@@ -132,6 +119,7 @@ describe('expect-to', () => {
   })
 
   describe('assert msg', () => {
+    const stubs = []
     beforeEach(() => stubs.push(sinon.spy(msg, 'formatMsg')))
     afterEach(() => stubs.splice(0).forEach((s) => s.restore()))
 

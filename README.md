@@ -21,30 +21,25 @@ Basic usage
 var foo = 'test';
 var bar = false;
 
-expect(foo).to(equal('test'));
-expect(foo).to(not(equal('testing')));
-expect(bar).to(beFalse);
-expect(bar).to(not(beUndefined));
+expect(foo).to(be('test'));
+expect(foo).to(not(be('testing')));
+expect(bar).to(be(false));
+expect(bar).to(not(be(undefined)));
 ```
 
 Or, e.g. within the Mocha BDD interface:
 
 ```javascript
-import expect, { not, equal, beTrue } from 'expect-to';
+import expect, { not, be } from 'expect-to';
 
 describe('my test', function() {
 
   it('handles equality checks', function() {
-    expect('foo').to(equal('foo'));
+    expect('foo').to(be('foo'));
   });
 
   it('handles `not` for all assertions', function() {
-    expect('foo').to(not(equal('bar')));
-  });
-
-  it('has many other helpers', function() {
-    const myVar = true;
-    expect(myVar).to(beTrue);
+    expect('foo').to(not(be('bar')));
   });
 
 });
@@ -53,22 +48,22 @@ describe('my test', function() {
 Assertions available
 --------------------
 
-- [`expect-to-core`](https://github.com/kjbekkelund/expect-to-core) contains core assertions, such as `equal`, `deepEqual`, `beTrue`, `beEmpty` and `match`. Included by default.
-- [`expect-to-promises`](https://github.com/kjbekkelund/expect-to-promises) contains the powerful `eventually` for promises.
+- [`expect-to-core`][expect-to-core] contains core assertions, such as `be`, `deepEqual`, `match` and `throwError`. Included by default.
+- [`expect-to-promises`][expect-to-promises] contains the powerful `eventually` for promises.
 
-Created other assertions on top of expect-to? [Let me know!](https://github.com/kjbekkelund/expect-to/pulls)
+Created other assertions on top of expect-to? [Let me know!][pulls]
 
 Creating your own assertions
 ----------------------------
 
-As an example of how to create an assertion, this is `equal`:
+As an example of how to create an assertion, this is how `be` is implemented:
 
 ```javascript
-function equal(expected) {
+function be(expected) {
   return function({ actual, assert }) {
     return assert(actual === expected,
-      [`Expected %j to equal %j`, actual, expected],
-      [`Expected %j not to equal %j`, actual, expected]);
+      ['Expected %j to be %j', actual, expected],
+      ['Expected %j not to be %j', actual, expected]);
   }
 }
 ```
@@ -76,30 +71,30 @@ function equal(expected) {
 And this is how you use it:
 
 ```javascript
-expect('foo').to(equal('foo'));
-expect('foo').to(not(equal('bar')));
+expect('foo').to(be('foo'));
+expect('foo').to(not(be('bar')));
 
 // And just to use the same variable names
-// as in the implementation of equal:
-expect(actual).to(equal(expected));
+// as in the implementation of be:
+expect(actual).to(be(expected));
 ```
 
 You can also write the assertion using arrow functions:
 
 ```javascript
-const equal = expected => ({ actual, assert, stringify }) =>
+const be = expected => ({ actual, assert }) =>
   assert(actual === expected,
-    `Expected ${stringify(actual)} to equal ${stringify(expected)}`,
-    `Expected ${stringify(actual)} not to equal ${stringify(expected)}`);
+    ['Expected %j to be %j', actual, expected],
+    ['Expected %j not to be %j', actual, expected])
 ```
 
 And if you want to create an assertion like `beUndefined`, it would only be:
 
 ```javascript
-const beUndefined = ({ actual, assert, stringify }) =>
+const beUndefined = ({ actual, assert }) =>
   assert(actual === undefined,
-    `Expected ${stringify(actual)} to be undefined`,
-    [`Expected %j to not be undefined`, actual]);
+    ['Expected %j to be undefined', actual],
+    ['Expected %j to not be undefined', actual]);
 ```
 
 And you can use it like this:
@@ -111,17 +106,18 @@ expect('testing').to(not(beUndefined));
 
 Also, what's up with those error messages?
 
-Using the array syntax is exactly like inlining variables formatted with the `stringify()` function, except that (potentially costly) object serialization is only done when necessary. The `%j` flag is a part of the [`util.format()` api](https://nodejs.org/api/util.html#util_util_format_format), which expect-to is using under the hood, so checkout those docs if you are not familiar.
+We rely on [`util.format()`][utilfmt] under the hood, so check out those docs
+for an explanation of `%j` and the other flags.
+
+Note: You can also return a string if you want. This string
+will not be formatted in any way.
 
 Why a new assertion library?
 ----------------------------
 
-There are [many](http://chaijs.com/)
-[assertion](https://github.com/shouldjs/should.js)
-[libraries](https://github.com/Automattic/expect.js)
-[out](https://github.com/power-assert-js/power-assert)
-[there](https://github.com/moll/js-must), but I haven't found one that matches
-what I want in an assertion library. This is what I look for:
+There are [many][chaijs] [assertion][shouldjs] [libraries][expectjs]
+[out][powerassert] [there][js-must], but I haven't found one that matches what
+I want in an assertion library. This is what I look for:
 
 First, I want my assertions to feel like JavaScript, so I've never been a huge
 fan of this style of chaining assertions:
@@ -144,8 +140,7 @@ assert(user.name == 'kim');
 assert(typeof user.age == 'number');
 ```
 
-(Yep, I know [Power Assert](https://github.com/power-assert-js/power-assert)
-solves that problem.)
+(Yep, I know [Power Assert][powerassert] solves that problem.)
 
 It must also be extremely simple to extend. I want assertions for React,
 Sinon.js and others, but they shouldn't be built into the core itself — the
@@ -196,8 +191,8 @@ bar.should.be.undefied;
 ```
 
 The latter _doesn't_ fail no matter what `bar` is because it
-[_always_ returns `undefined`](https://github.com/moll/js-must#asserting-on-property-access).
-And on that note, what about:
+[_always_ returns `undefined`][property-access]. And on that note,
+what about:
 
 ```javascript
 var bar = undefined;
@@ -207,3 +202,14 @@ bar.should.not.be.ok;
 This doesn't work as you cannot add properties to `undefined` and `null`.
 
 `expect-to` is my attempt at building an assertion library that solves all of these problems.
+
+[expect-to-core]: https://github.com/kjbekkelund/expect-to-core
+[expect-to-promises]: https://github.com/kjbekkelund/expect-to-promises
+[pulls]: https://github.com/kjbekkelund/expect-to/pulls
+[utilfmt]: https://nodejs.org/api/util.html#util_util_format_format
+[chaijs]: http://chaijs.com/
+[shouldjs]: https://github.com/shouldjs/should.js
+[expectjs]: https://github.com/Automattic/expect.js
+[powerassert]: https://github.com/power-assert-js/power-assert
+[js-must]: https://github.com/moll/js-must
+[property-access]: https://github.com/moll/js-must#asserting-on-property-access
