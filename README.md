@@ -18,31 +18,29 @@ Basic usage
 -----------
 
 ```javascript
-var foo = 'test';
-var bar = false;
-
-expect(foo).to(be('test'));
-expect(foo).to(not(be('testing')));
-expect(bar).to(be(false));
-expect(bar).to(not(be(undefined)));
+expect(foo).to(be('test'))
+expect(foo).to(not(be('testing')))
+expect(bar).to(be(false))
+expect(bar).to(not(be(undefined)))
+expect(obj).to(deepEqual({ foo: 'bar' }))
 ```
 
 Or, e.g. within the Mocha BDD interface:
 
 ```javascript
-import expect, { not, be } from 'expect-to';
+import expect, { not, be } from 'expect-to'
 
 describe('my test', function() {
 
   it('handles equality checks', function() {
-    expect('foo').to(be('foo'));
-  });
+    expect('foo').to(be('foo'))
+  })
 
   it('handles `not` for all assertions', function() {
-    expect('foo').to(not(be('bar')));
-  });
+    expect('foo').to(not(be('bar')))
+  })
 
-});
+})
 ```
 
 Assertions available
@@ -63,7 +61,7 @@ function be(expected) {
   return function({ actual, assert }) {
     return assert(actual === expected,
       ['Expected %j to be %j', actual, expected],
-      ['Expected %j not to be %j', actual, expected]);
+      ['Expected %j not to be %j', actual, expected])
   }
 }
 ```
@@ -71,12 +69,12 @@ function be(expected) {
 And this is how you use it:
 
 ```javascript
-expect('foo').to(be('foo'));
-expect('foo').to(not(be('bar')));
+expect('foo').to(be('foo'))
+expect('foo').to(not(be('bar')))
 
 // And just to use the same variable names
 // as in the implementation of be:
-expect(actual).to(be(expected));
+expect(actual).to(be(expected))
 ```
 
 You can also write the assertion using arrow functions:
@@ -94,14 +92,14 @@ And if you want to create an assertion like `beUndefined`, it would only be:
 const beUndefined = ({ actual, assert }) =>
   assert(actual === undefined,
     ['Expected %j to be undefined', actual],
-    ['Expected %j to not be undefined', actual]);
+    ['Expected %j to not be undefined', actual])
 ```
 
 And you can use it like this:
 
 ```js
-expect(undefined).to(beUndefined);
-expect('testing').to(not(beUndefined));
+expect(undefined).to(beUndefined)
+expect('testing').to(not(beUndefined))
 ```
 
 Also, what's up with those error messages?
@@ -123,21 +121,21 @@ First, I want my assertions to feel like JavaScript, so I've never been a huge
 fan of this style of chaining assertions:
 
 ```javascript
-someVar.should.be.a('string');
-should(null).not.be.ok();
-should.not.exist(err);
-expect(foo).to.be.a('string');
+someVar.should.be.a('string')
+should(null).not.be.ok()
+should.not.exist(err)
+expect(foo).to.be.a('string')
 expect(obj).to.have.property('key')
-  .with.length(3);
-expect(window).not.to.be.an(Image);
+  .with.length(3)
+expect(window).not.to.be.an(Image)
 ```
 
 An assertion library must also have great error messages, which excludes basic
 asserts:
 
 ```javascript
-assert(user.name == 'kim');
-assert(typeof user.age == 'number');
+assert(user.name == 'kim')
+assert(typeof user.age == 'number')
 ```
 
 (Yep, I know [Power Assert][powerassert] solves that problem.)
@@ -156,18 +154,18 @@ beforeEach(function () {
         compare: function (actual, expected) {
           return {
             pass: (actual % 2) === 0
-          };
+          }
         }
-      };
+      }
     }
-  });
-});
+  })
+})
 ```
 
 and:
 
 ```
-chai.use(somePlugin);
+chai.use(somePlugin)
 ```
 
 On that note, I also don't want to mix the test library with the assertion
@@ -175,19 +173,19 @@ library. This also excludes things like:
 
 ```javascript
 test('equal test', function (t) {
-    t.plan(1);
-    t.equal('test', 'test');
-});
+    t.plan(1)
+    t.equal('test', 'test')
+})
 ```
 
 It _must_ also end up calling a function, not assert on property access. What
 happens here?
 
 ```javascript
-foo.should.be.false;
+foo.should.be.false
 
 // or maybe a test with a small typo
-bar.should.be.undefied;
+bar.should.be.undefied
 ```
 
 The latter _doesn't_ fail no matter what `bar` is because it
@@ -195,8 +193,8 @@ The latter _doesn't_ fail no matter what `bar` is because it
 what about:
 
 ```javascript
-var bar = undefined;
-bar.should.not.be.ok;
+var bar = undefined
+bar.should.not.be.ok
 ```
 
 This doesn't work as you cannot add properties to `undefined` and `null`.
