@@ -15,7 +15,7 @@
   "dependencies": {
     "assertion-error": "^1.0.1",
     "custom-util-format": "^1.0.0",
-    "expect-to-core": "^0.7.0",
+    "expect-to-core": "^1.0.0",
     "is-promise": "^2.0.0",
     "loupe": "0.0.1"
   },
